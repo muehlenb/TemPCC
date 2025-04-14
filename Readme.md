@@ -1,4 +1,4 @@
-**Note:** This repository is currently a work in progress, as the TemPCC component still needs to be extracted from a larger application into a smaller, standalone project. This process — including refactoring and code documentation — will be completed by April 14th, 2025. Currently, for transparency purposes only, the TemPCC related classes can be found in `/unrefactored_classes/`
+**Note:** This repository is currently a work in progress, as the TemPCC component still needs to be extracted from a larger application into a smaller, standalone project. This process — including refactoring and code documentation — will be completed by April 20th, 2025 (delayed due conflicting deadlines). Currently, for transparency purposes only, the TemPCC related classes can be found in `/unrefactored_classes/`
 
 # TemPCC: Completing Temporal Occlusions in Large Dynamic Point Clouds Captured by Multiple RGB-D Cameras
 
