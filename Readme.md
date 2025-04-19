@@ -14,8 +14,8 @@ Conference information will follow.
 
 ## Model, Dataset and Dataset Generator
 Our pre-trained **TinyFlowNet** models: 
- - Trained using Optimal Flow: [new_trained_optimalflow.pt (5.25 MiB)]()
- - Trained using PDFlow: [new_trained_optimalflow.pt (5.25 MiB)]() 
+ - Trained using Optimal Flow: [new_trained_optimalflow.pt (5.25 MiB)](https://github.com/muehlenb/TemPCC/raw/refs/heads/main/data/net/new_trained_optimalflow.pt)
+ - Trained using PDFlow: [new_trained_optimalflow.pt (5.25 MiB)](https://github.com/muehlenb/TemPCC/raw/refs/heads/main/data/net/new_trained_pdflow.pt) 
  
 The RGB-D captures with ground truth data of our synthetic scenes:
  - [Training Scene (1.61 GiB)](https://cgvr.cs.uni-bremen.de/papers/eg2025/tempcc/dataset/TemPCC_TrainingScene.7z)
