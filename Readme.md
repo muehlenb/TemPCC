@@ -1,10 +1,9 @@
-**Note:** This repository is currently a work in progress, as the TemPCC component still needs to be extracted from a larger application into a smaller, standalone project. This process — including refactoring and code documentation — will be completed by April 20th, 2025 (delayed due conflicting deadlines). Currently, for transparency purposes only, the TemPCC related classes can be found in `/unrefactored_classes/`
 
 # TemPCC: Completing Temporal Occlusions in Large Dynamic Point Clouds Captured by Multiple RGB-D Cameras
 
 #### Paper (soon) | Video (soon) | Slides (soon) | Supplementary (soon) 
 
-C++ implementation of our technique for temporally completing dynamic point clouds of multiple RGB-D cameras, using LibTorch and CUDA. We provide a GUI application which can train and evaluate our TinyFlowNet(TFN) and visualize the results on both synthetic and real-world scenes.
+C++ implementation of our technique for temporally completing dynamic point clouds of multiple RGB-D cameras, using LibTorch and CUDA. We provide a GUI application which can train our TinyFlowNet(TFN) and visualize the results on both synthetic and real-world scenes.
 
 [Andre Mühlenbrock¹](https://orcid.org/0000-0002-7836-3341), [Rene Weller¹](https://orcid.org/0009-0002-2544-4153), [Gabriel Zachmann¹](https://orcid.org/0000-0001-8155-1127)\
 ¹Computer Graphics and Virtual Reality Research Lab ([CGVR](https://cgvr.cs.uni-bremen.de/)), University of Bremen
@@ -13,29 +12,44 @@ Conference information will follow.
 
 ![image](images/teaser.png)
 
-## Pre-built Binaries
-**TODO**
-
-**Note:** This application relies on CUDA 12.1 and requires an NVIDIA graphics card with compatible support.
-
 ## Model, Dataset and Dataset Generator
-Our pre-trained model: 
- - [temp_net.pt (5.25 MiB) **TODO**]()
+Our pre-trained **TinyFlowNet** models: 
+ - Trained using Optimal Flow: [new_trained_optimalflow.pt (5.25 MiB)]()
+ - Trained using PDFlow: [new_trained_optimalflow.pt (5.25 MiB)]() 
  
-The RGB-D captures of our synthetic scenes we used in the paper can be found here: 
- - [Synthetic Scenes (X.X GiB)  **TODO**]()
-
-Furthermore, we provide the **Unreal Engine 5 project** with which we generated the synthetic RGB-D captures, including occluded ground truth points. If you want to generate training data of your own scenes, you can find more information in the README of the subfolder:
- - [How to generate your own synthetic RGB-D captures for training **TODO**](tools/training_gen/Readme.md)
+The RGB-D captures with ground truth data of our synthetic scenes:
+ - [Training Scene (1.61 GiB)](https://cgvr.cs.uni-bremen.de/papers/eg2025/tempcc/dataset/TemPCC_TrainingScene.7z)
+ - [Validation Scene A (1.11 GiB)](https://cgvr.cs.uni-bremen.de/papers/eg2025/tempcc/dataset/TemPCC_ValidationSceneA.7z)
+ - [Validation Scene B (1.68 GiB)](https://cgvr.cs.uni-bremen.de/papers/eg2025/tempcc/dataset/TemPCC_ValidationSceneB.7z)
 
 ## Build Requirements
+
+Note: We tested the following CUDA and LibTorch versions with this project
+
+ - **CUDA Toolkit 12.1** with **Libtorch 2.2.1+cu121**
+ 
+Ensure that the following requirements are met:
 
  - **CMake** ≥ 3.11
  - **OpenGL** ≥ 3.3
  - **C++ Compiler**, e.g. MSVC v143
  - **CUDA Toolkit 12.1**
- - **LibTorch 2.5.1**
+   - Note: LibTorch requires *Nsight NVTX*, which is not installed by *CUDA 12.1* and higher. Without installing it, there will be a CMake error. In the community, the workaround is to **additionally** download the CUDA Toolkit 11.8 installer and just select the *Nsight NVTX* component. Afterwards, no additional configuration should be required, the CMakeLists.txt will simply work. So, during using the 11.8 installier, only select:
+	![image](images/nvtx_118.png)
+	
+	For more information about this workaround, see: https://github.com/pytorch/pytorch/issues/116242
+   
+ - **LibTorch 2.2.1**
+   - Download LibTorch: https://download.pytorch.org/libtorch/cu121/
+     - E.g., for Windows (Release Version), select *libtorch-win-shared-with-deps-2.2.1%2Bcu121.zip*
+	
+	- **Warning:** You need to choose the version which corresponds to your build settings (Release or Debug). Otherwise, the source code might not compile (e.g. an error at the TinyFlowNet definition will be thrown). I suggest to use the **Release version** and compile the project in **RelWithDebInfo** mode.
  
+ 
+ - **Azure Kinect SDK 1.4.1 (optional)** 
+   - When you not only want to use synthetic Unreal Engine scenes, but also load the CWIPC-SXR scenes, you have to install the Azure Kinect SDK 1.4.1.
+
+Note: The **PDFlow** algorithm stored at `src/pcrenderer/pdflow` is from https://github.com/MarianoJT88/PD-Flow and was slightly adapted to support Azure Kinects (resolution and projection related changes). Thanks to **MarianoJT88** for providing the source code!
 
 *Additionally, this project uses small open-source libraries that we have directly integrated into our source code, thus no separate installation is required. You can find them in the `lib` folder. 
 A big thank you to the developers of
@@ -47,31 +61,51 @@ A big thank you to the developers of
 [imfilebrowser](https://github.com/AirGuanZ/imgui-filebrowser), and
 [GLAD](https://gen.glad.sh/).*
 ## Build from Source
-**TODO**
+
+When running CMAKE, you should define the following variables:
+
+- Set `Torch_DIR` to `[EXTRACTED_LIBTORCH_FOLDER]/libtorch/share/cmake/Torch/`
+
+When you want support for loading the CWIPC-SXR dataset (recorded with Microsoft Azure Kinect), please ensure that you have the Microsoft Azure Kinect SDK 1.4.1 installed. Then:
+
+- Set `USE_KINECT` to `ON`. When using Windows 10, you are finished (assuming you used default paths of the Azure Kinect SDK when installing). When working on Linux, please also define the `K4A_INCLUDE_DIR`, `K4A_LIB` and `K4A_RECORD_LIB` variables.
 
 ## Load Model and Scene
 ### Load Model
-**TODO:** Put your .pt file into the `data/net/` folder and choose [...]
+When running the software with initialized TemPCC, you can load the model by clicking "Load". Clicking on "Save" will override the model. The model is loaded from and stored to the `/data/net/temp_net.pt` path (CMake project folder).
+
+![image](images/load_model.png)
 
 ### Load Synthetic Dataset
-**TODO:** To load the synthetic dataset, choose **BinaryStreamer** in the source tab and select [...].
+To load one of the synthetic datasets, you have to use the **UE5 Recording (Binary)** streamer. Just select it:
+
+![image](images/source_ue5_recording.png)
+
+Then, select the **dataset.json** from the dataset folder (download above) to load the dataset including the synthetic RGB-D recordings and the ground truth data.
 
 
 ### Load Real-World CWIPC-SXR Dataset
-**TODO:** To load the real-world dataset, choose **AzureKinectMKVStreamer** in the source and select [...].
+To load the real-world dataset, choose **Azure Kinect (mkv)** and select the `cameraconfig.json` in the folder of the scene in the CWIPC-SXR dataset, which you want to load. Note that these scenes contain no ground truth information, meaning you **cannot** train the TinyFlowNet with them.
+
 
 ## Training Model
-**TODO**
-
 Training is only possible on the synthetic dataset, as it is the only one that contains ground truth flow data of occluded points.
 
-To start training, open the Training tab. A training step is automatically performed whenever a new frame is loaded — therefore, the point cloud must be played. You can also switch between different scenes to continue training the current model on them.
+To start training, open the Training tab and check **"Should Train"**. A training step is automatically performed whenever a new frame is loaded — therefore, the point cloud must be played. You can also switch between different scenes to continue training the current model on them.
 
-Information to provide: TODO: Describe in detail how the training data is sampled while the point cloud is running (e.g., specify the Circular Buffer Size and explain how temporal data is sampled, if anyone want to change this).
-## Code Overview
+### Scheduled Sampling
+Training on temporal data introduces a classic chicken-and-egg problem: To predict the current flow at a given point, the model also relies on the previously predicted flow vectors at that point. However, these previous predictions themselves depend on the current state of the neural network. At the beginning of training, the model is not yet reliable, so using its own predictions can lead to unstable learning.
 
-**TODO:** Code is quite complex and not directly described in the paper; describe how information of the whole point cloud is prepared, copied and moved on GPU so we can train and evaluate using Libtorch, especially the pre-processing, and post-processing (to integrate it into the scene). This is currently done by `cudaMainPassKernelPartA` function (pre pass) and `cudaMainPassKernelPartB` (post pass).
+To address this, we use Scheduled Sampling: Early in training, we provide the model with the ground truth flow vectors from previous time steps. As training progresses and the model improves, we gradually replace these ground truth inputs with the model's own predicted flow vectors. This technique improves robustness and prepares the network to handle real-world scenarios, where ground truth data is not available at inference time.
 
+### Circular Buffering
+Additionally, we don't train the model on data from isolated frames. Instead, we sample training data from across the entire sequence of a scene to provide better temporal diversity. To facilitate this, we use a circular training buffer: as RGB-D frames are streamed in, they are continuously written into a fixed-size buffer. Once the buffer is full, it starts overwriting older data in a circular manner. Training only begins after the buffer has been filled for the first time.
+
+## Screenshot
+
+![image](images/screenshot.jpg)
+
+Please note that TemPCC is a **highly experimental** and actively evolving project. It was developed primarily as a rapid prototyping environment to explore new ideas with minimal software architecture overhead. As such, the codebase is not production-ready and may contain unresolved issues, including potential memory leaks (e.g., when switching rendering techniques or streamers). Stability and robustness were not the primary goals during development.
 
 ## Cite
 ```
