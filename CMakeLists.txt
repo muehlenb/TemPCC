@@ -105,7 +105,7 @@ set(DEFAULT_HEADERS
     src/util/math/Mat4.h
 
     # Libtorch Headers
-    src/pcrenderer/tempcc/Net.h
+    src/pcrenderer/tempcc/TinyFlowNet.h
     src/pcrenderer/tempcc/TemPCCRenderer.h
     src/pcrenderer/tempcc/TemPCCRendererKernels.h
     src/pcrenderer/tempcc/TemPCCRendererThrust.h
@@ -127,8 +127,7 @@ set(DEFAULT_HEADERS
     src/util/cuda/CuHashSet.h
     src/util/cuda/CuHashSet.cu
 
-    # Just for training
-    src/TempSettings.h
+    src/Data.h
 
     # Precompiled headers for faster compilation
     src/pch.h
@@ -172,8 +171,7 @@ set(DEFAULT_SOURCES
     # PDFlow
     src/pcrenderer/pdflow/pdflow_cudalib.cu
 
-    # Just for training:
-    src/TempSettings.cpp
+    src/Data.cpp
 )
 
 # Define Azure Kinect Files:
