@@ -1,16 +1,19 @@
 
 # TemPCC: Completing Temporal Occlusions in Large Dynamic Point Clouds Captured by Multiple RGB-D Cameras
 
-#### Paper (soon) | Video (soon) | Slides (soon) | Supplementary (soon) 
+#### [Paper](https://diglib.eg.org/handle/10.2312/egs20251039) | [Video](https://cgvr.cs.uni-bremen.de/papers/eg2025/tempcc/TemPCC_EG2025s_Video.mp4) | [Slides](https://cgvr.cs.uni-bremen.de/papers/eg2025/tempcc/TemPCC_EG2025s_Slides.pdf) | [Supplementary](https://cgvr.cs.uni-bremen.de/papers/eg2025/tempcc/TemPCC_EG2025s_Supplementary_Material.pdf)
 
 C++ implementation of our technique for temporally completing dynamic point clouds of multiple RGB-D cameras, using LibTorch and CUDA. We provide a GUI application which can train our TinyFlowNet(TFN) and visualize the results on both synthetic and real-world scenes.
 
 [Andre Mühlenbrock¹](https://orcid.org/0000-0002-7836-3341), [Rene Weller¹](https://orcid.org/0009-0002-2544-4153), [Gabriel Zachmann¹](https://orcid.org/0000-0001-8155-1127)\
 ¹Computer Graphics and Virtual Reality Research Lab ([CGVR](https://cgvr.cs.uni-bremen.de/)), University of Bremen
 
-Conference information will follow.
+Presented at Eurographics 2025 - Short Papers
 
 ![image](images/teaser.png)
+
+**Note:** TemPCC is a highly experimental and actively evolving project. It was developed primarily as a rapid prototyping environment to explore new ideas with minimal software architecture overhead. For publication it was extracted out of a larger project framework. The codebase is not production-ready and may contain unresolved issues, including potential memory leaks (e.g., when switching rendering techniques or streamers). Stability and robustness were not the primary goals during development for this specific project. If you have any questions or issues, don't hesitate to contact me!
+
 
 ## Model, Dataset and Dataset Generator
 Our pre-trained **TinyFlowNet** models: 
@@ -83,9 +86,13 @@ To load one of the synthetic datasets, you have to use the **UE5 Recording (Bina
 
 Then, select the **dataset.json** from the dataset folder (download above) to load the dataset including the synthetic RGB-D recordings and the ground truth data.
 
-
 ### Load Real-World CWIPC-SXR Dataset
 To load the real-world dataset, choose **Azure Kinect (mkv)** and select the `cameraconfig.json` in the folder of the scene in the CWIPC-SXR dataset, which you want to load. Note that these scenes contain no ground truth information, meaning you **cannot** train the TinyFlowNet with them.
+
+### Buffer sizes
+**When initializing the TemPCC renderer, make sure to choose a point cloud buffer size appropriate for your scene.**
+In our experiments, we used a point buffer size of **2,000,000 points** and a training buffer of **500,000 points**.
+Please note that these settings require a GPU with sufficient VRAM to function properly (e.g. Nvidia GeForce 4090 RTX).
 
 
 ## Training Model
@@ -105,9 +112,17 @@ Additionally, we don't train the model on data from isolated frames. Instead, we
 
 ![image](images/screenshot.jpg)
 
-Please note that TemPCC is a **highly experimental** and actively evolving project. It was developed primarily as a rapid prototyping environment to explore new ideas with minimal software architecture overhead. As such, the codebase is not production-ready and may contain unresolved issues, including potential memory leaks (e.g., when switching rendering techniques or streamers). Stability and robustness were not the primary goals during development.
-
 ## Cite
 ```
-Citing information will follow soon
+@inproceedings{Muehlenbrock-2025-TemPCC,
+    booktitle = {Eurographics 2025 - Short Papers},
+    editor = {Ceylan, Duygu and Li, Tzu-Mao},
+    title = {{TemPCC: Completing Temporal Occlusions in Large Dynamic Point Clouds captured by Multiple RGB-D Cameras}},
+    author = {Mühlenbrock, Andre and Weller, Rene and Zachmann, Gabriel},
+    year = {2025},
+    publisher = {The Eurographics Association},
+    ISSN = {1017-4656},
+    ISBN = {978-3-03868-268-4},
+    DOI = {10.2312/egs.20251039}
+}
 ```
