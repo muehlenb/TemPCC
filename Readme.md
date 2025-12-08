@@ -8,8 +8,6 @@ C++ implementation of our technique for temporally completing dynamic point clou
 [Andre Mühlenbrock¹](https://orcid.org/0000-0002-7836-3341), [Rene Weller¹](https://orcid.org/0009-0002-2544-4153), [Gabriel Zachmann¹](https://orcid.org/0000-0001-8155-1127)\
 ¹Computer Graphics and Virtual Reality Research Lab ([CGVR](https://cgvr.cs.uni-bremen.de/)), University of Bremen
 
-Presented at Eurographics 2025 - Short Papers
-
 ![image](images/teaser.png)
 
 **Note:** TemPCC is a highly experimental and actively evolving project. It was developed primarily as a rapid prototyping environment to explore new ideas with minimal software architecture overhead. For publication it was extracted out of a larger project framework. The codebase is not production-ready and may contain unresolved issues, including potential memory leaks (e.g., when switching rendering techniques or streamers). Stability and robustness were not the primary goals during development for this specific project. If you have any questions or issues, don't hesitate to contact me!
@@ -113,6 +111,7 @@ Additionally, we don't train the model on data from isolated frames. Instead, we
 ![image](images/screenshot.jpg)
 
 ## Cite
+This work was presented at Eurographics '25 - Short Papers. If you use this code, please cite:
 ```
 @inproceedings{Muehlenbrock-2025-TemPCC,
     booktitle = {Eurographics 2025 - Short Papers},
