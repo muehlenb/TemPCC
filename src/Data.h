@@ -13,8 +13,8 @@ struct Data {
     float4* gpuGroundTruthPoints = nullptr;
     float4* cpuGroundTruthPoints = nullptr;
 
-    int TemPCC_MaxPointNum = 500000;
-    int TemPCC_TrainingPointNum = 100000;
+    int TemPCC_MaxPointNum = 2000000;
+    int TemPCC_TrainingPointNum = 500000;
     int TemPCC_InferenceBatchSize = 1024;
     int TemPCC_TrainingBatchSize = 512;
     double TemPCC_MinimalLearningRate = 0.0000001;
